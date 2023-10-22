@@ -5,48 +5,15 @@ import json
 import shutil
 
 
+# --------------------------
 random.seed(42)
 
 # Путь к TSV-файлу с данными
 tsv_file = "cropped_slovo_annotations/SLOVO_DATAFRAME.tsv"
 
-# Загрузка данных из TSV-файла в DataFrame
-data = pd.read_csv(tsv_file, delimiter='\t')
-
-# print(data)
-data_cropped = data[["attachment_id","user_id" ,"text"]]
-# print(data_cropped)
-
-text_column = data["text"]
-print(text_column)
-
-
-# Load the JSON file with class mappings
-with open("slovo_annotations/classes.json", "r", encoding="utf-8") as file:
-    class_mappings = json.load(file)
-
-
 # Function to map text to class based on the JSON file
 def map_text_to_class(text):
     return class_mappings.get(text, -1)  # -1 if text is not found in the JSON file
-
-# Add a new column "class" to the DataFrame
-data['class'] = data['text'].apply(map_text_to_class)
-
-# # Display the updated DataFrame
-print(data)
-
-# mapped_df = data[["text", "class"]]
-# mapped_df.to_csv("video-class.txt", sep="\t", index=False, header=True)
-# print(mapped_df)
-
-
-dataset = data[["attachment_id", "class"]]
-dataset["attachment_id"] = dataset["attachment_id"].apply(lambda x: x + ".mp4")
-# dataset.to_csv("dataset.txt", sep=" ", index=False, header=False)
-print(dataset)
-
-# --------------------------
 
 # Загрузка данных из TSV-файла в DataFrame
 data = pd.read_csv(tsv_file, delimiter='\t')
@@ -90,16 +57,83 @@ print(val_data)
 print(len(train_data), len(val_data))
 
 
+# Define the source and destination folders
+source_folder = "cropped_slovo/"  # Replace with the path to your source folder
+train_folder = "slovo_split/train/"
+val_folder = "slovo_split/val/"
 
+# Iterate over the first DataFrame (train data)
+for _, row in train_data.iterrows():
+    attachment_id = row['attachment_id']
+    attachment_class = row['class']
+    
+    # Construct source and destination file paths
+    source_file = source_folder + attachment_id
+    destination_file = train_folder + attachment_id
 
+    # Move the file to the train folder
+    shutil.copy(source_file, destination_file)
 
-
+# Iterate over the second DataFrame (validation data)
+for _, row in val_data.iterrows():
+    attachment_id = row['attachment_id']
+    attachment_class = row['class']
+    
+    # Construct source and destination file paths
+    source_file = source_folder + attachment_id
+    destination_file = val_folder + attachment_id
+    
+    # Move the file to the val folder
+    shutil.copy(source_file, destination_file)
 
 
 
 
 
 #------------------------------------
+
+
+
+# random.seed(42)
+
+# # Путь к TSV-файлу с данными
+# tsv_file = "cropped_slovo_annotations/SLOVO_DATAFRAME.tsv"
+
+# # Загрузка данных из TSV-файла в DataFrame
+# data = pd.read_csv(tsv_file, delimiter='\t')
+
+# # print(data)
+# data_cropped = data[["attachment_id","user_id" ,"text"]]
+# # print(data_cropped)
+
+# text_column = data["text"]
+# print(text_column)
+
+
+# # Load the JSON file with class mappings
+# with open("slovo_annotations/classes.json", "r", encoding="utf-8") as file:
+#     class_mappings = json.load(file)
+
+
+# # Function to map text to class based on the JSON file
+# def map_text_to_class(text):
+#     return class_mappings.get(text, -1)  # -1 if text is not found in the JSON file
+
+# # Add a new column "class" to the DataFrame
+# data['class'] = data['text'].apply(map_text_to_class)
+
+# # # Display the updated DataFrame
+# print(data)
+
+# # mapped_df = data[["text", "class"]]
+# # mapped_df.to_csv("video-class.txt", sep="\t", index=False, header=True)
+# # print(mapped_df)
+
+
+# dataset = data[["attachment_id", "class"]]
+# dataset["attachment_id"] = dataset["attachment_id"].apply(lambda x: x + ".mp4")
+# print(dataset)
+
 # read classes.json
 
 # # Load the JSON data from your file
