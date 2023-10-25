@@ -8,11 +8,6 @@ import shutil
 # --------------------------
 random.seed(42)
 
-# Load the JSON file with class mappings
-with open("slovo_annotations/classes.json", "r", encoding="utf-8") as file:
-    class_mappings = json.load(file)
-
-
 # Путь к TSV-файлу с данными
 tsv_file = "cropped_slovo_annotations/SLOVO_DATAFRAME.tsv"
 
@@ -115,6 +110,9 @@ for _, row in val_data.iterrows():
 # print(text_column)
 
 
+# # Load the JSON file with class mappings
+# with open("slovo_annotations/classes.json", "r", encoding="utf-8") as file:
+#     class_mappings = json.load(file)
 
 
 # # Function to map text to class based on the JSON file

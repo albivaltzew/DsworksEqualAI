@@ -1,29 +1,18 @@
-# DSworksEqualAI
+# DsworksEqualAI
 DSworks AIJ 2023 Equal AI Competition
 1. Датасет содержит 1000 классов жестов РЖЯ по 20 видео в каждом классе = 20000 видео
 2. В разметке есть начало и конец жеста - обрежем видео для удаления ненужных кадров и уменьшения размера датасета
 3. Переводим текст в метку класса
-4. делим датасет на train, val, с условием, что человек из train не принадлежит val
+4. Делим датасет на train, val, с условием, что человек из train не принадлежит val
+5. Дообучаем baseline модель
+
+
+
+
+Install MMAction2 locally with cuda in conda environment:
 
 Install cuda win10
 https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html
-
-Cuda support:
-
-pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/torch_stable.html
-
-Info env:
-
-python -m torch.utils.collect_env
-
-import torch; print(torch.version.cuda); print(torch.cuda.is_available()); print(torch.backends.cudnn.enabled)
-
-
-conda install cuda -c nvidia/label/cuda-12.1.0
-
-nvcc -V
-
-Install MMAction2 locally with cuda in conda environment:
 
 0. conda create --name openmmlab python=3.8 -y 
   conda activate openmmlab
